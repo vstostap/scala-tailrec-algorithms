@@ -6,7 +6,7 @@ object Newton {
     * @param x <Double> value
     * @return square root of value
     */
-    private def solve(x: Double): Double = {
+    private[this] def solve(x: Double): Double = {
       def square(x: Double): Double = x*x
       def good_enough(guess: Double) = (square(guess) - x).abs < 0.001
       def improve(guess: Double) = (guess + x / guess) / 2

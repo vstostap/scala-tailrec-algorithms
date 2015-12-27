@@ -6,7 +6,7 @@ object Fibonacci {
     * @param n <Int>
     * @return
     */
-  private def solve( n : Int) : Int = {
+  private[this] def solve( n : Int) : Int = {
     @tailrec
     def iter( n: Int, a:Int, b:Int): Int = n match {
       case 0 => a
