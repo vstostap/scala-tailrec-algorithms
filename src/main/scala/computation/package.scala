@@ -1,6 +1,12 @@
+/**
+  * @author Ostap Vasiuta
+  * @see https://github.com/vstostap/scala-tailrec-algorithms
+  */
+
 import scala.annotation.tailrec
 
 package object computation {
+
   type T = Double
 
   /**
