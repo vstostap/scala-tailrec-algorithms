@@ -10,7 +10,7 @@ package object search {
 
   /**
     * Binary search algorithm
-    * @param n <Int>
+    * @param n <T>
     * @param l <List>
     * @return sought value
     * Complexity O(log n)
@@ -27,12 +27,12 @@ package object search {
 
     def middle(l: List[T], r: List[T]): List[T] = {
       @tailrec
-      def race(t: List[T], h: List[T]): List[T] =
+      def iter(t: List[T], h: List[T]): List[T] =
         if (h != r && h.tail != r)
-          race(t.tail, h.tail.tail)
+          iter(t.tail, h.tail.tail)
         else t
 
-      race(l, l.tail)
+      iter(l, l.tail)
     }
 
     search(l, Nil)
@@ -41,7 +41,7 @@ package object search {
 
   /**
     * Linear search algorithm
-    * @param n <Int>
+    * @param n <T>
     * @param l <List>
     * @return sought value
     * Complexity O(n)
@@ -56,4 +56,45 @@ package object search {
     iter(l)
   }
   def linear[T](n:T, l:List[T]) = linearScope(n, l)
+
+
+  /**
+    * Selection search algorithm
+    * @param n <Int>
+    * @param l <List>
+    * @return sought value
+    * Complexity O(n)
+    */
+  private[this] def selectionScope[T <% Ordered[T]](n: Int, l: List[T]): Option[T] = {
+  def search(t: (List[T], T, List[T]), m: Int): Option[T] = t match {
+      case (Nil, p, Nil) => Some(p)
+      case (s, p, g) => select(s, p, g, s.length, m)
+    }
+
+    def select(l: List[T], p: T, g: List[T], q: Int, m: Int): Option[T] =
+      if (m < q) partitionAndSearch(l, m)
+      else if (m > q) partitionAndSearch(g, m - q - 1)
+      else Some(p)
+
+    /**
+      * The same as in quicksort.
+      */
+    def partition(as: List[T]): (List[T], T, List[T]) = {
+      @tailrec
+      def iter(p: T, as: List[T], l: List[T], g: List[T]): (List[T], T, List[T]) =
+        as match {
+          case h :: t => if (h < p) iter(p, t, h :: l, g) else iter(p, t, l, h :: g)
+          case Nil => (l, p, g)
+        }
+
+      iter(as.head, as.tail, Nil, Nil)
+    }
+
+    def partitionAndSearch(as: List[T], m: Int): Option[T] =
+      if (as.isEmpty) None
+      else search(partition(as), m)
+
+    partitionAndSearch(l, n)
+  }
+  def selection[T](n:Int, l:List[T]) = selectionScope(n, l)
 }
