@@ -10,19 +10,58 @@ package object computation {
   type T = Double
 
   /**
+    * Is power of two
+    * @param a <Int>
+    * @return <Boolean> whether the given number is power of two.
+    * Complexity O(1)
+    */
+  def isPowerOfTwo(a: Int): Boolean =
+    (a & (a - 1)) == 0
+
+  /**
+    * Swaps even and odd bits in given number
+    * @param a <Int>
+    * @return number
+    * Complexity O(1)
+    */
+  def swapEvenAndOdd(a: Int): Int =
+    ((a & 0xaaaaaaaa) >> 1) | ((a & 0x55555555) << 1)
+
+  /**
+    * Maximum of two numbers
+    * @param a <Int>
+    * @param b <Int>
+    * @return number
+    * Complexity O(1)
+    */
+  def max(a: Int, b: Int) = a - (((a - b) >> 31) & 0x1) * (a - b)
+
+  /**
     * Euclid's algorithm
     * @param a <T>
     * @param b <T>
     * @return greatest common divisor
+    * Complexity O(log n)
     */
   @tailrec
   private[this] def gcdScope(a: T, b: T): T = if (b == 0.0) a else gcdScope(b, a % b)
   def gcd(a: T, b: T): T = gcdScope(a, b)
 
   /**
+    * Least common multiple
+    * @param a <T>
+    * @param b <T>
+    * @return lcm of two given numbers
+    * Complexity O(log n)
+    */
+  private[this] def lcmScope(a: T, b: T): T = math.abs(a * b) / gcd(a, b)
+  def lcm(a: T, b: T): T = lcmScope(a, b)
+
+  /**
     * Isaac Newton's sqrt algorithm
     * @param x <T> value
     * @return square root of value
+    * Complexity O(log n)
     */
   private[this] def sqrtScope(x: T): T = {
     def square(x: T): T = x * x
@@ -35,6 +74,24 @@ package object computation {
     iter(1.0)
   }
   def sqrt(x: T): T = sqrtScope(x)
+
+  /**
+    * Exponentiation of given number 'a' in power of 'b'
+    * @param a <T>
+    * @param b <T>
+    * @return 'a' in power of 'b'
+    * Complexity O(log n)
+    */
+  private[this] def powerScope(a: T, b: T): Double = {
+    @tailrec
+    def iter(x: T, acc: T, y: T): T =
+      if (y == 0.0) acc
+      else if (y % 2 == 0) iter(x * x, acc, y / 2)
+      else iter(x, acc * x, y - 1)
+
+    iter(a, 1.0, b)
+  }
+  def power(a: T, b: T) = powerScope(a, b)
 
   /**
     * Tail-recursive factorial
@@ -54,7 +111,8 @@ package object computation {
   /**
     * Fibonacci numbers
     * @param n <T>
-    * @return
+    * @return 'n'th fibonacci number
+    * Complexity O(n)
     */
   private[this] def fibScope(n: T): T = {
     @tailrec
@@ -134,4 +192,50 @@ package object computation {
     iter(n, 1)
   }
   def triangularNumbers(n:T) = triangularNumbersScope(n)
+
+
+  /**
+    * Pascal triangle
+    * @param n <T>
+    * @return prints the `n`th levels of Pascal's Triangle.
+    */
+  private[this] def pascalTriangle(n: T): Unit = {
+    def pascal(i: Int, j: Int): Int =
+      if (j == 0 || j == i) 1
+      else pascal(i - 1, j - 1) + pascal(i - 1, j)
+
+    @tailrec
+    def iter(m: Int): Unit =
+      if (m < n) {
+        for (k <- 0 to m) print(pascal(m, k) + " ")
+        print("\n")
+        iter(m + 1)
+      } else print("\n")
+
+    iter(0)
+  }
+  def pascal(n: T) = pascalTriangle(n)
+
+
+  /**
+    * Validate parenthesis
+    * @param s <String>
+    * @return <Boolean> whether the parenthesis are balanced or not
+    */
+  private[this] def validateParenthesisScope(s: String): Boolean = {
+    def left(i: Int, k: Int): Boolean =
+      if (i == s.length) k == 0
+      else if (s.charAt(i) == '(') right(i + 1, k + 1)
+      else false
+
+    @tailrec
+    def right(i: Int, k: Int): Boolean =
+      if (i == s.length) false
+      else if (s.charAt(i) == '(') right(i + 1, k + 1)
+      else if (k == 1) left(i + 1, k - 1)
+      else right(i + 1, k - 1)
+
+    left(0, 0)
+  }
+  def validateParenthesis(s: String): Boolean = validateParenthesisScope(s)
 }
