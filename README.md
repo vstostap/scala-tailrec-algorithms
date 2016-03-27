@@ -1,5 +1,7 @@
 scala-tailrec-algorithms
-----------------
+------------------------
+[![Build Status](https://travis-ci.org/vstostap/scala-tailrec-algorithms.svg?branch=master)](https://travis-ci.org/vstostap/scala-tailrec-algorithms)
+
 A library with classical computer algorithms in Scala, has written in purely functional style, using tail recursion as well.
 
 How to use?
