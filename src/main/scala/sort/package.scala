@@ -27,7 +27,7 @@ package object sort {
 
     sort(list, Nil)
   }
-  def bubble[T](list: List[T]) = bubblesort(list)
+  def bubble[T <% Ordered[T]](list: List[T]) = bubblesort(list)
 
   /**
     * Insertion sort
@@ -49,7 +49,7 @@ package object sort {
 
     sort(list, Nil)
   }
-  def insertion[T](list: List[T]) = insertionsort(list)
+  def insertion[T <% Ordered[T]](list: List[T]) = insertionsort(list)
 
   /**
     * Selection sort
@@ -74,7 +74,7 @@ package object sort {
 
     sort(list, Nil)
   }
-  def selection[T](list: List[T]) = selectionsort(list)
+  def selection[T <% Ordered[T]](list: List[T]) = selectionsort(list)
 
   /**
     * Merge sort
@@ -119,7 +119,7 @@ package object sort {
 
     iter(list)
   }
-  def merge[T](list: List[T]) = mergesort(list)
+  def merge[T <% Ordered[T]](list: List[T]) = mergesort(list)
 
   /**
     * Quick sort
@@ -150,5 +150,5 @@ package object sort {
 
     partitionAndSort(list)
   }
-  def quick[T](list: List[T]) = quicksort(list)
+  def quick[T <% Ordered[T]](list: List[T]) = quicksort(list)
 }

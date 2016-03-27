@@ -37,7 +37,7 @@ package object search {
 
     search(l, Nil)
   }
-  def binary[T](n:T, l:List[T]) = binaryScope(n, l)
+  def binary[T <% Ordered[T]](n:T, l:List[T]) = binaryScope(n, l)
 
   /**
     * Linear search algorithm
@@ -55,7 +55,7 @@ package object search {
 
     iter(l)
   }
-  def linear[T](n:T, l:List[T]) = linearScope(n, l)
+  def linear[T <% Ordered[T]](n:T, l:List[T]) = linearScope(n, l)
 
 
   /**
@@ -96,5 +96,5 @@ package object search {
 
     partitionAndSearch(l, n)
   }
-  def selection[T](n:Int, l:List[T]) = selectionScope(n, l)
+  def selection[T <% Ordered[T]](n:Int, l:List[T]) = selectionScope(n, l)
 }
